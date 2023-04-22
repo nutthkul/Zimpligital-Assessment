@@ -18,8 +18,8 @@
           <v-card-text>
             <span style="font-weight: 400; font-size: 20px"
               >Ticket Available by {{ convertDate(dateSelected) }} <br />
-              These mobile tickers will be transferred directly to you from a
-              trusted seller, We'll email you instructions on how to accept them
+              These mobile tickets will be transferred directly to you from a
+              trusted seller. We'll email you instructions on how to accept them
               on the original ticket provider's mobile app.</span
             >
           </v-card-text>
@@ -35,7 +35,7 @@
           </v-card-title>
           <v-card-title class="ml-4 py-0">
             <span style="font-weight: 800; font-size: 20px"
-              >Using Credit / Debit Card</span
+              >Use Credit / Debit Card</span
             >
           </v-card-title>
           <v-card-text>
@@ -76,7 +76,7 @@
                     </v-col>
                     <v-col cols="10" sm="11">
                       <v-col cols="12" class="pa-0">
-                        <b
+                        <b style="color: #000; font-weight: 800"
                           >{{ info.typeOfCard }} -
                           {{ info.numberOfCard.substring(0, 4) }}</b
                         >
@@ -112,14 +112,22 @@
                             </template>
                           </v-text-field>
                         </v-col>
-                        <v-col cols="2" sm="2">
+                        <!-- <v-col cols="2" sm="2">
                           <v-img
                             src="@/assets/icon/cvv.png"
                             width="40px"
                           ></v-img>
-                        </v-col>
-                        <v-col cols="6" sm="7" class="mt-3"
-                          >3-digits on back of card</v-col
+                        </v-col> -->
+                        <v-col cols="8" sm="9" style="display: inline-flex"
+                          ><img
+                            src="@/assets/icon/cvv.png"
+                            width="40px"
+                            height="40px"
+                            class="mr-2"
+                          />
+                          <span class="mt-2"
+                            >3-digits on back of card</span
+                          ></v-col
                         >
                       </v-row>
                     </v-col>
@@ -129,85 +137,93 @@
             </v-radio-group>
           </v-card-text>
 
-          <v-card class="mx-4" max-width="100%" elevation="0">
-            <v-card-actions v-if="!reveal">
-              <span
-                @click="reveal = true"
-                style="
-                  color: #026cdf;
-                  font-size: 20px;
-                  font-weight: 800;
-                  display: inline-flex;
-                "
-              >
-                +
-                <v-img
-                  class="mx-4"
-                  src="@/assets/icon/debit-cards.png"
-                  width="40px"
-                ></v-img>
-                Add New Card</span
-              >
-            </v-card-actions>
+          <v-form
+            ref="createForm"
+            v-model="checkValidate"
+            :lazy-validation="lazy"
+          >
+            <v-card class="mx-4" max-width="100%" elevation="0">
+              <v-card-actions v-if="!reveal">
+                <span
+                  @click="reveal = true"
+                  style="
+                    color: #026cdf;
+                    font-size: 20px;
+                    font-weight: 800;
+                    display: inline-flex;
+                  "
+                >
+                  <v-icon color="#026cdf">mdi-plus</v-icon>
+                  <v-img
+                    class="mx-4"
+                    src="@/assets/icon/debit-cards.png"
+                    width="40px"
+                  ></v-img>
+                  <span class="mt-2">Add New Card</span></span
+                >
+              </v-card-actions>
 
-            <v-expand-transition>
-              <v-card
-                v-if="reveal"
-                class="transition-fast-in-fast-out v-card--reveal"
-                style="height: 100%"
-                elevation="0"
-              >
-                <v-card-text>
-                  <v-row class="mt-0">
-                    <v-col cols="6">
-                      <label class="required">Name on Card</label>
-                      <v-text-field
-                        v-model="cardName"
-                        reuired
-                        dense
-                        :rules="rules.selectRules"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="6">
-                      <label class="required">Card Number</label>
-                      <v-text-field
-                        v-model="cardNumber"
-                        v-mask="'#### #### #### ####'"
-                        reuired
-                        dense
-                        :rules="rules.selectRules"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="6">
-                      <label class="required">Expiration Date</label>
-                      <v-text-field
-                        v-model="cardExpiration"
-                        v-mask="'##/##'"
-                        reuired
-                        dense
-                        :rules="rules.selectRules"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="6">
-                      <label class="required">Security Code</label>
-                      <v-text-field
-                        v-model="cardSecurity"
-                        reuired
-                        dense
-                        :rules="rules.selectRules"
-                        type="password"
-                        maxlength="3"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-                <v-card-actions class="pt-0">
-                  <v-btn @click="reveal = false"> Close </v-btn>
-                  <v-btn color="primary" @click="saveCard()"> SAVE </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-expand-transition>
-          </v-card>
+              <v-expand-transition>
+                <v-card
+                  v-if="reveal"
+                  class="transition-fast-in-fast-out v-card--reveal"
+                  style="height: 100%"
+                  elevation="0"
+                >
+                  <v-card-text>
+                    <v-row class="mt-0">
+                      <v-col cols="6">
+                        <label class="required">Name on Card</label>
+                        <v-text-field
+                          v-model="cardName"
+                          reuired
+                          dense
+                          :rules="rules.selectRules"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="6">
+                        <label class="required">Card Number</label>
+                        <v-text-field
+                          v-model="cardNumber"
+                          v-mask="'#### #### #### ####'"
+                          reuired
+                          dense
+                          :rules="rules.cardNumberrules"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="6">
+                        <label class="required">Expiration Date</label>
+                        <v-text-field
+                          v-model="cardExpiration"
+                          v-mask="'##/##'"
+                          placeholder="##/##"
+                          reuired
+                          dense
+                          :rules="rules.exprules"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="6">
+                        <label class="required">Security Code</label>
+                        <v-text-field
+                          v-model="cardSecurity"
+                          placeholder="###"
+                          reuired
+                          dense
+                          :rules="rules.cvvrules"
+                          type="password"
+                          maxlength="3"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-card-actions class="pt-0">
+                    <v-btn @click="reveal = false"> Close </v-btn>
+                    <v-btn color="primary" @click="saveCard()"> SAVE </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-expand-transition>
+            </v-card>
+          </v-form>
 
           <v-divider class="ma-4"></v-divider>
           <v-card-title class="ml-4 py-0">
@@ -215,8 +231,8 @@
           </v-card-title>
           <v-card-title class="ml-4 pt-0">
             <b style="font-weigh: 800"
-              >By using a digital wallet and continuting past this page, you
-              have read and are accepting the
+              >By using a digital wallet and continuing past this page, you have
+              read and are accepting the
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <a
@@ -224,6 +240,7 @@
                     href="http://vuetifyjs.com"
                     @click.stop
                     v-on="on"
+                    style="font-weight: 700"
                   >
                     Terms of Use.
                   </a>
@@ -245,7 +262,9 @@
                       <span class="headerCard">Total</span>
                     </v-col>
                     <v-col cols="6" style="text-align-last: right">
-                      <span class="headerCard text-right">$549.11</span>
+                      <span class="headerCard text-right"
+                        >${{ totalprice }}</span
+                      >
                     </v-col>
                     <v-col cols="8" class="text--secondary">
                       <v-fade-transition leave-absolute>
@@ -266,32 +285,44 @@
                     <b>Tickets</b>
                   </v-col>
                   <v-col cols="8"
-                    ><span>{{ title }}: $229.00 x 2</span></v-col
+                    ><span
+                      >{{ title }}: ${{ ticketPrice }} x {{ quantity }}</span
+                    ></v-col
                   >
-                  <v-col cols="4" class="text-end"> $458.00</v-col>
+                  <v-col cols="4" class="text-end">
+                    ${{ totalBeforeFee }}</v-col
+                  >
                   <v-col cols="12" class="mt-4">
                     <b>Notes From Seller</b>
                   </v-col>
                   <v-col cols="12">
                     xfr XFER Proof of at least one dose of COVID-19 vaccination
-                    for ages 5 to 11 and guest ages 12 and up will be required
-                    to show proff of tho COVID-19 vaccine does or one foes of
+                    for ages 5 to 11 and guests ages 12 and up will be required
+                    to show proof of two COVID-19 vaccine doses or one dose of
                     the Johnson & Johnson vaccine. Masks must be worn.
                   </v-col>
                   <v-col cols="12" class="mt-4">
                     <b>Fees</b>
                   </v-col>
-                  <v-col cols="8">Service Fee: &44.08 x 2</v-col>
-                  <v-col cols="4" class="text-end"> $88.16</v-col>
+                  <v-col cols="8"
+                    >Service Fee: ${{ serviceFee }} x {{ quantity }}</v-col
+                  >
+                  <v-col cols="4" class="text-end">
+                    ${{ totalServiceFee }}</v-col
+                  >
                   <v-col cols="8">Order Processing Fee</v-col>
-                  <v-col cols="4" class="text-end"> $2.95</v-col>
+                  <v-col cols="4" class="text-end">
+                    ${{ orderProcessFee }}</v-col
+                  >
                   <v-col cols="12" class="mt-4">
                     <b>Delivery</b>
                   </v-col>
                   <v-col cols="8">Mobile Entry</v-col>
-                  <v-col cols="4" class="text-end"> Free</v-col>
+                  <v-col cols="4" class="text-end">
+                    {{ mobileEntryFee ? "$" + mobileEntryFee : "Free" }}</v-col
+                  >
                   <v-col cols="12" class="mt-6 mb-4">
-                    <b style="color: #026cdf">Cancel Order</b>
+                    <b style="color: #026cdf" @click="cancel()">Cancel Order</b>
                   </v-col>
                   <v-col cols="12" class="mt-4">
                     <b>*All Sales Final - No Refunds</b>
@@ -312,6 +343,7 @@
                                 href="http://vuetifyjs.com"
                                 @click.stop
                                 v-on="on"
+                                style="font-weight: 700"
                               >
                                 Terms of Use.
                               </a>
@@ -333,8 +365,8 @@
             </v-btn>
           </v-col>
           <v-col cols="12" class="pt-0">
-            <span style="font-size: 12px; font-weight: 700"
-              >*Exceptions may apply, see our Term of Use.</span
+            <span style="font-weight: 700; font-size: 12px"
+              >*Exceptions may apply, see our Terms of Use.</span
             >
           </v-col>
 
@@ -368,6 +400,9 @@ export default {
 
   data() {
     return {
+      checkValidate: true,
+      lazy: false,
+      ticketPrice: 229.0,
       reveal: false,
       agreement: false,
       panel: [0],
@@ -381,6 +416,7 @@ export default {
       creditCards: "9999 9999 9999 9999",
       dateSelected: null,
       title: null,
+      quantity: null,
       cardData: [
         {
           image:
@@ -404,17 +440,76 @@ export default {
             "Phone Number must be 9-10 charactors only.",
           (v) => !!v || "Please enter your phone number.",
         ],
+        cardNumberrules: [
+          (v) =>
+            (v.length <= 19 && v.length >= 19) ||
+            "Card Number must be 16 charactors.",
+          (v) => !!v || "This field is required",
+        ],
+        exprules: [
+          (v) =>
+            (v.length <= 5 && v.length >= 5) ||
+            "Exipire Date Number must be 4 charactors.",
+          (v) => !!v || "This field is required",
+        ],
+        cvvrules: [
+          (v) =>
+            (v.length <= 3 && v.length >= 3) ||
+            "CVV Number must be 3 charactors.",
+          (v) => !!v || "This field is required",
+        ],
       },
+      totalBeforeFee: null,
+      serviceFee: null,
+      totalServiceFee: null,
+      orderProcessFee: 2.95,
+      mobileEntryFee: 0,
+      totalprice: null,
     };
   },
   created() {
     console.log("this.$route.query", this.$route.query);
     this.dateSelected = this.$route.query.dateSelected;
     this.title = this.$route.query.title;
+    this.quantity = this.$route.query.quantity;
+    this.summaryData();
   },
   methods: {
+    summaryData() {
+      this.totalBeforeFee = (this.ticketPrice * this.quantity).toFixed(2) * 1;
+      this.serviceFee = (this.ticketPrice.toFixed(2) * 0.1).toFixed(2) * 1;
+      this.totalServiceFee = (this.serviceFee * this.quantity).toFixed(2) * 1;
+      console.log(
+        this.totalBeforeFee,
+        this.totalServiceFee,
+        this.orderProcessFee,
+        this.mobileEntryFee
+      );
+      this.totalprice = (
+        this.totalBeforeFee * 1 +
+        this.totalServiceFee * 1 +
+        this.orderProcessFee +
+        this.mobileEntryFee * 1
+      ).toFixed(2);
+    },
     goback() {
       this.$router.push("/");
+    },
+    cancel() {
+      this.$swal
+        .fire({
+          icon: "question",
+          title: `Do you want to cancel order ?`,
+          confirmButtonText: `Yes`,
+          cancelButtonText: `No`,
+          showCancelButton: true,
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            this.$router.push("/");
+          }
+        });
+      // });
     },
     submit() {
       // Submit form logic goes here
@@ -442,20 +537,24 @@ export default {
       return moment(date).format("ddd MMM D, YYYY");
     },
     saveCard() {
-      this.cardData.push({
-        image:
-          "https://www.t2pco.com/assets/images/home/Logo_license_Visa-min.webp",
-        typeOfCard: "Visa",
-        nameOfCard: this.cardName,
-        numberOfCard: this.cardNumber,
-        expireDate: this.cardExpiration,
-        cvv: this.cardSecurity,
-      });
-      this.creditCards = this.cardNumber;
-      this.reveal = false;
+      if (this.$refs.createForm.validate(true)) {
+        this.cardData.push({
+          image:
+            "https://www.t2pco.com/assets/images/home/Logo_license_Visa-min.webp",
+          typeOfCard: "Visa",
+          nameOfCard: this.cardName,
+          numberOfCard: this.cardNumber,
+          expireDate: this.cardExpiration,
+          cvv: this.cardSecurity,
+        });
+        this.creditCards = this.cardNumber;
+        this.reveal = false;
+      }
     },
     deleteCardData(index) {
-      this.cardData.splice(index, 1);
+      if (this.cardData.length > 1) {
+        this.cardData.splice(index, 1);
+      }
     },
   },
 };

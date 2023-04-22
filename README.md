@@ -1,4 +1,4 @@
-# cu-visa
+# Zimpligital-Assessment
 
 ## Project setup
 ```

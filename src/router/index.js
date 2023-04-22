@@ -32,6 +32,11 @@ const routes = [
         path: "/",
         component: Homepage,
         children: [
+            {
+                path: "/payment",
+                name: "payment",
+                component: () => import ("@/components/Payment/index.vue")
+            },
             // {
             //     path: '/test',
             //     name: 'test',

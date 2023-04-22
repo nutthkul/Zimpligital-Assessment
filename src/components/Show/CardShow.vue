@@ -2,7 +2,9 @@
   <v-col cols="12" md="4" sm="6">
     <v-card>
       <v-img :src="image" aspect-ratio="1.5"></v-img>
-      <v-card-title>{{ title }}</v-card-title>
+      <v-card-title
+        ><h3>{{ title }}</h3></v-card-title
+      >
       <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
       <v-card-text>
         {{ description }}
@@ -28,7 +30,11 @@
               v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="dateSelected" @input="menu = false">
+          <v-date-picker
+            v-model="dateSelected"
+            @input="menu = false"
+            :min="minDate"
+          >
             <!-- @change="firstDateChange" -->
           </v-date-picker>
         </v-menu>
@@ -105,6 +111,7 @@ export default {
       )
         .toISOString()
         .substr(0, 10),
+      minDate: new Date().toISOString().substr(0, 10),
     };
   },
   created() {},
@@ -119,14 +126,14 @@ export default {
       if (!this.selectedTime) {
         this.$swal.fire({
           icon: "error",
-          text: "กรุณาเลือกเวลาฉาย",
+          text: "Please select time",
           showConfirmButton: false,
           timer: 1500,
         });
       } else if (!this.quantity) {
         this.$swal.fire({
           icon: "error",
-          text: "กรุณาเลือกจำนวนที่นั่ง",
+          text: "Please select quantity",
           showConfirmButton: false,
           timer: 1500,
         });
